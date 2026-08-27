@@ -48,11 +48,13 @@ public class PetService {
     //Método PUT para atualizar um pet
     @Transactional
     public PetDTO update(PetDTO dto) {
-        Pet entity = petRepository.getOne(dto.getId());
-        copyDtoToEntity(dto, entity);
-        entity = petRepository.save(entity);
-        return new PetDTO(entity);
-    }
+            Pet entity = petRepository.findById(dto.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado"));
+            copyDtoToEntity(dto, entity);
+            entity = petRepository.save(entity);
+            return new PetDTO(entity);
+        }
+
 
     //Método DELETE para deletar um pet
     @Transactional

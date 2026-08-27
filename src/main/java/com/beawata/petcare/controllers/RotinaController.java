@@ -2,6 +2,7 @@ package com.beawata.petcare.controllers;
 
 import com.beawata.petcare.dto.RotinaDTO;
 import com.beawata.petcare.services.RotinaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,7 @@ public class RotinaController {
 
     //Método POST para adicionar uma rotina
     @PostMapping
-    public ResponseEntity<RotinaDTO> save(@RequestBody RotinaDTO dto) {
+    public ResponseEntity<RotinaDTO> save(@Valid @RequestBody RotinaDTO dto) {
         RotinaDTO dtoSaved = rotinaService.save(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -53,7 +54,7 @@ public class RotinaController {
 
     //Método PUT para atualizar uma rotina
     @PutMapping(value = "/{id}")
-    public ResponseEntity<RotinaDTO> update(@PathVariable Long id, @RequestBody RotinaDTO dto) {
+    public ResponseEntity<RotinaDTO> update(@PathVariable Long id, @Valid @RequestBody RotinaDTO dto) {
         dto.setId(id);
         RotinaDTO dtoUpdated = rotinaService.update(dto);
         return ResponseEntity.ok().body(dtoUpdated);

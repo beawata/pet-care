@@ -5,6 +5,7 @@ import com.beawata.petcare.entities.Pet;
 import com.beawata.petcare.entities.Rotina;
 import com.beawata.petcare.repositories.PetRepository;
 import com.beawata.petcare.repositories.RotinaRepository;
+import com.beawata.petcare.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,10 +57,15 @@ public class RotinaService {
     //Método PUT para atualizar uma rotina
     @Transactional
     public RotinaDTO update(RotinaDTO dto){
-        Rotina entity = rotinaRepository.getOne(dto.getId());
-        copyDtoToEntity(dto, entity);
-        entity = rotinaRepository.save(entity);
-        return new RotinaDTO(entity);
+        try {
+            Rotina entity = rotinaRepository.getOne(dto.getId());
+            copyDtoToEntity(dto, entity);
+            entity = rotinaRepository.save(entity);
+            return new RotinaDTO(entity);
+        }
+        catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
     }
 
     //Método DELETE para deletar uma rotina
@@ -74,7 +80,8 @@ public class RotinaService {
         entity.setObservacao(dto.getObservacao());
         entity.setPeso(dto.getPeso());
 
-        Pet pet = petRepository.getOne(dto.getPetId());
+        Pet pet = petRepository.findById(dto.getPetId())
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado"));
         entity.setPet(pet);
     }
 

@@ -1,16 +1,30 @@
 package com.beawata.petcare.dto;
 
 import com.beawata.petcare.entities.Rotina;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 public class RotinaDTO {
 
     private Long id;
+
+    @FutureOrPresent(message = "A data deve ser presente ou futura")
+    @NotNull(message ="Campo obrigatório")
     private LocalDate data;
+    @NotNull(message ="Campo obrigatório")
+    @PositiveOrZero(message = "O peso deve ser positivo")
+    @NotNull(message ="Campo obrigatório")
     private Double peso;
+    @NotNull(message ="Campo obrigatório")
     private Boolean alimentacao;
+    @Size(min = 8, max = 150, message = "Campo obrigatório")
+    @NotNull(message ="Campo obrigatório")
     private String observacao;
+    @NotNull(message ="Campo obrigatório")
     private Long petId;
 
     public RotinaDTO() {
