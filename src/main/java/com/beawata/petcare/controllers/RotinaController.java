@@ -3,6 +3,8 @@ package com.beawata.petcare.controllers;
 import com.beawata.petcare.dto.RotinaDTO;
 import com.beawata.petcare.services.RotinaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,15 +21,15 @@ public class RotinaController {
 
     //Método GET para listar todas as rotinas de um pet
     @GetMapping(value = "/pet/{petId}")
-    public ResponseEntity<List<RotinaDTO>> findByPetId(@PathVariable Long petId) {
-        List<RotinaDTO> list = rotinaService.findByPetId(petId);
+    public ResponseEntity<Page<RotinaDTO>> findByPetId(@PathVariable Long petId, Pageable pageable) {
+        Page<RotinaDTO> list = rotinaService.findByPetIdPaged(petId, pageable);
         return ResponseEntity.ok().body(list);
     }
 
     //Método GET para listar todas as rotinas
     @GetMapping
-    public ResponseEntity<List<RotinaDTO>> findAll() {
-        List<RotinaDTO> list = rotinaService.findAll();
+    public ResponseEntity<Page<RotinaDTO>> findAll(Pageable pageable) {
+        Page<RotinaDTO> list = rotinaService.findAllPaged(pageable);
         return ResponseEntity.ok().body(list);
     }
 

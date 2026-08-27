@@ -5,6 +5,8 @@ import com.beawata.petcare.entities.Pet;
 import com.beawata.petcare.repositories.PetRepository;
 import com.beawata.petcare.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +21,11 @@ public class PetService {
 
     //Método GET para listar todos os pets
     @Transactional(readOnly = true)
-    public List<PetDTO> findAll() {
-        List<Pet> list = petRepository.findAll();
+    public Page<PetDTO> findAllPaged(Pageable pageable) {
+        Page<Pet> list = petRepository.findAll(pageable);
 
         //converter lista de pets em uma lista de PetDTO
-        return list.stream().map(x -> new PetDTO(x))
-                .collect(Collectors.toList());
+        return list.map(x -> new PetDTO(x));
     }
 
     //Método GET para listar um pet pelo id

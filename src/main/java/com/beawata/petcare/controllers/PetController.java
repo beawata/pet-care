@@ -4,6 +4,8 @@ import com.beawata.petcare.dto.PetDTO;
 import com.beawata.petcare.services.PetService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,8 +22,8 @@ public class PetController {
 
     //Método GET para listar todos os pets
     @GetMapping
-    public ResponseEntity<List<PetDTO>> findAll() {
-        List<PetDTO> list = petService.findAll();
+    public ResponseEntity<Page<PetDTO>> findAll(Pageable pageable) {
+        Page<PetDTO> list = petService.findAllPaged(pageable);
         return ResponseEntity.ok().body(list);
     }
 
@@ -44,7 +46,7 @@ public class PetController {
 
     //Método PUT para atualizar um pet
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PetDTO> update(@PathVariable Long id, @RequestBody PetDTO dto) {
+    public ResponseEntity<PetDTO> update(@PathVariable Long id, @Valid @RequestBody PetDTO dto) {
         dto.setId(id);
         PetDTO dtoUpdated = petService.update(dto);
         return ResponseEntity.ok().body(dtoUpdated);

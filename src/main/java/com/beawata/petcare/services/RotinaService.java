@@ -6,6 +6,8 @@ import com.beawata.petcare.entities.Rotina;
 import com.beawata.petcare.repositories.PetRepository;
 import com.beawata.petcare.repositories.RotinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,18 +25,16 @@ public class RotinaService {
 
     //Método GET para listar todas as rotinas de um pet
     @Transactional(readOnly = true)
-    public List<RotinaDTO> findByPetId(Long petId) {
-        List<Rotina> list = rotinaRepository.findByPetId(petId);
-        return list.stream().map(x -> new RotinaDTO(x))
-                .collect(java.util.stream.Collectors.toList());
+    public Page<RotinaDTO> findByPetIdPaged(Long petId, Pageable pageable) {
+        Page<Rotina> list = rotinaRepository.findByPetId(petId, pageable);
+        return list.map(x -> new RotinaDTO(x));
     }
 
     //Método GET para listar todas as rotinas
     @Transactional(readOnly = true)
-    public List<RotinaDTO> findAll() {
-        List<Rotina> list = rotinaRepository.findAll();
-        return list.stream().map(x -> new RotinaDTO(x))
-                .collect(Collectors.toList());
+    public Page<RotinaDTO> findAllPaged(Pageable pageable) {
+        Page<Rotina> list = rotinaRepository.findAll(pageable);
+        return list.map(x -> new RotinaDTO(x));
     }
 
     //Método GET para buscar uma rotina pelo id
