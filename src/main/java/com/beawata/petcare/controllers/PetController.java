@@ -2,6 +2,7 @@ package com.beawata.petcare.controllers;
 
 import com.beawata.petcare.dto.PetDTO;
 import com.beawata.petcare.services.PetService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,12 @@ public class PetController {
 
     //Método POST para salvar um pet
     @PostMapping
-    public ResponseEntity<PetDTO> save(@RequestBody PetDTO dto) {
+    public ResponseEntity<PetDTO> save(@Valid @RequestBody PetDTO dto) {
         PetDTO dtoSaved = petService.save(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dtoSaved.getId()).toUri();
-        return ResponseEntity.ok().body(dtoSaved);
+        return ResponseEntity.created(uri).body(dtoSaved);
     }
 
     //Método PUT para atualizar um pet
