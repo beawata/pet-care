@@ -5,3 +5,7 @@ INSERT INTO tb_pet(nome, data_nascimento, microchip, tipo) VALUES ('Nina', '2020
 INSERT INTO tb_pet(nome, data_nascimento, microchip, tipo) VALUES ('Max', '2025-03-17', 'N/A', 1);
 
 INSERT INTO tb_rotina(pet_id, observacao, data, peso, alimentacao) VALUES (1, 'Vomitou e comeu pouco', '2026-08-25', 20.5, true);
+INSERT INTO tb_rotina(pet_id, observacao, data, peso, alimentacao) VALUES (1, 'Comeu mais e está mais ativo', '2026-08-27', 20.5, true);
+INSERT INTO tb_rotina(pet_id, observacao, data, peso, alimentacao) VALUES (3, 'Ganhou peso', '2026-08-26', 5.0, true);
+INSERT INTO tb_rotina(pet_id, observacao, data, peso, alimentacao) VALUES (2, 'Está mais quieto', '2026-08-25', 4.5, true);
+INSERT INTO tb_rotina(pet_id, observacao, data, peso, alimentacao) VALUES (4, 'Está mais ativo', '2026-08-25', 4.0, true);

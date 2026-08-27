@@ -2,10 +2,12 @@ package com.beawata.petcare.dto;
 
 import com.beawata.petcare.entities.Rotina;
 
+import java.time.LocalDate;
+
 public class RotinaDTO {
 
     private Long id;
-    private String data;
+    private LocalDate data;
     private Double peso;
     private Boolean alimentacao;
     private String observacao;
@@ -14,7 +16,7 @@ public class RotinaDTO {
     public RotinaDTO() {
     }
 
-    public RotinaDTO(Long id, String data, Double peso, Boolean alimentacao, String observacao, Long petId) {
+    public RotinaDTO(Long id, LocalDate data, Double peso, Boolean alimentacao, String observacao, Long petId) {
         this.id = id;
         this.data = data;
         this.peso = peso;
@@ -25,7 +27,7 @@ public class RotinaDTO {
 
     public RotinaDTO(Rotina entity){
         id = entity.getId();
-        data = entity.getData().toString();
+        data = entity.getData();
         peso = entity.getPeso();
         alimentacao = entity.getAlimentacao();
         observacao = entity.getObservacao();
@@ -43,11 +45,11 @@ public class RotinaDTO {
         this.id = id;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
