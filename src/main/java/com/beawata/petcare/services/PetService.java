@@ -3,6 +3,7 @@ package com.beawata.petcare.services;
 import com.beawata.petcare.dto.PetDTO;
 import com.beawata.petcare.entities.Pet;
 import com.beawata.petcare.repositories.PetRepository;
+import com.beawata.petcare.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,8 @@ public class PetService {
     //Método GET para listar um pet pelo id
     @Transactional(readOnly = true)
     public PetDTO findById(Long id) {
-        Pet pet = petRepository.getOne(id);
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado"));
         return new PetDTO(pet);
     }
 
