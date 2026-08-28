@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -69,8 +70,11 @@ public class RotinaService {
     }
 
     //Método DELETE para deletar uma rotina
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id){
+        if (!rotinaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Rotina não encontrada");
+        }
         rotinaRepository.deleteById(id);
     }
 

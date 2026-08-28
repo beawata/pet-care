@@ -6,11 +6,14 @@ import com.beawata.petcare.entities.Especie;
 import com.beawata.petcare.entities.Pet;
 import com.beawata.petcare.repositories.EspecieRepository;
 import com.beawata.petcare.repositories.PetRepository;
+import com.beawata.petcare.services.exceptions.DataBaseException;
 import com.beawata.petcare.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -54,18 +57,31 @@ public class PetService {
     //Método PUT para atualizar um pet
     @Transactional
     public PetDTO update(PetDTO dto) {
+        try {
             Pet entity = petRepository.findById(dto.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Pet não encontrado"));
             copyDtoToEntity(dto, entity);
             entity = petRepository.save(entity);
             return new PetDTO(entity);
         }
+        catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
+    }
 
 
     //Método DELETE para deletar um pet
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
-        petRepository.deleteById(id);
+        if (!petRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Pet não encontrado");
+        }
+        try {
+            petRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataBaseException("Falha na integridade referencial");
+        }
     }
 
 
