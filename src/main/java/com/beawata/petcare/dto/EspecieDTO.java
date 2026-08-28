@@ -9,10 +9,12 @@ public class EspecieDTO {
 
     private Long id;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Size(min = 3, max = 30, message = "Nome precisa ter entre 3 e 80 caracteres")
+    @NotNull(message = "Campo obrigatório")
     private String nome;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Size(min = 3, max = 180, message = "Descrição precisa ter entre 3 e 80 caracteres")
+    @NotNull(message = "Campo obrigatório")
     private String descricao;
 
     public EspecieDTO(Long id, String nome, String descricao) {
