@@ -1,7 +1,6 @@
 package com.beawata.petcare.dto;
 
 import com.beawata.petcare.entities.Pet;
-import com.beawata.petcare.entities.Tipo;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -15,8 +14,11 @@ public class PetDTO {
     @Size(min = 3, max = 80, message = "Microchip precisa ter entre 3 e 80 caracteres")
     @NotNull(message = "Campo obrigatório")
     private String microchip;
+
     @NotNull(message = "Campo obrigatório")
-    private Tipo tipo;
+    private Long especieId;
+
+    private String especieNome;
 
     @PastOrPresent(message = "Data de nascimento precisa ser do passado ou igual a data atual")
     @NotNull(message = "Campo obrigatório")
@@ -25,11 +27,10 @@ public class PetDTO {
     public PetDTO() {
     }
 
-    public PetDTO(Long id, String nome, String microchip, Tipo tipo, LocalDate dataNascimento) {
+    public PetDTO(Long id, String nome, String microchip, LocalDate dataNascimento) {
         this.id = id;
         this.nome = nome;
         this.microchip = microchip;
-        this.tipo = tipo;
         this.dataNascimento = dataNascimento;
     }
 
@@ -37,8 +38,13 @@ public class PetDTO {
         id = entity.getId();
         nome = entity.getNome();
         microchip = entity.getMicrochip();
-        tipo = entity.getTipo();
         dataNascimento = entity.getDataNascimento();
+
+        //Proteção e Mapeamento da Espécie
+        if (entity.getEspecie() != null) {
+            especieId = entity.getEspecie().getId();
+            especieNome = entity.getEspecie().getNome();
+        }
     }
 
     public Long getId() {
@@ -65,18 +71,22 @@ public class PetDTO {
         this.microchip = microchip;
     }
 
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    public Long getEspecieId() {
+        return especieId;
+    }
+    public void setEspecieId(Long especieId) {
+        this.especieId = especieId;
+    }
+    public String getEspecieNome() {
+        return especieNome;
+    }
+    public void setEspecieNome(String especieNome) {}
+
 }

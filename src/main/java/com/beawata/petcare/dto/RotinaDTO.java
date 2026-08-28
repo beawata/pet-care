@@ -26,6 +26,7 @@ public class RotinaDTO {
     private String observacao;
     @NotNull(message ="Campo obrigatório")
     private Long petId;
+    private String petNome;
 
     public RotinaDTO() {
     }
@@ -48,6 +49,7 @@ public class RotinaDTO {
 
         if(entity.getPet() != null) {
             petId = entity.getPet().getId();
+            petNome = entity.getPet().getNome();
         }
     }
 
@@ -97,5 +99,12 @@ public class RotinaDTO {
 
     public void setPetId(Long petId) {
         this.petId = petId;
+    }
+
+    public String getPetNome() {
+        return petNome;
+    }
+    public void setPetNome(String petNome) {
+        this.petNome = petNome;
     }
 }

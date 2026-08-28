@@ -1,7 +1,10 @@
 package com.beawata.petcare.services;
 
+import com.beawata.petcare.dto.EspecieDTO;
 import com.beawata.petcare.dto.PetDTO;
+import com.beawata.petcare.entities.Especie;
 import com.beawata.petcare.entities.Pet;
+import com.beawata.petcare.repositories.EspecieRepository;
 import com.beawata.petcare.repositories.PetRepository;
 import com.beawata.petcare.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ public class PetService {
 
     @Autowired
     private PetRepository petRepository;
+
+    @Autowired
+    private EspecieRepository especieRepository;
 
     //Método GET para listar todos os pets
     @Transactional(readOnly = true)
@@ -67,6 +73,8 @@ public class PetService {
         entity.setNome(dto.getNome());
         entity.setDataNascimento(dto.getDataNascimento());
         entity.setMicrochip(dto.getMicrochip());
-        entity.setTipo(dto.getTipo());
+
+        Especie especie = especieRepository.getReferenceById(dto.getEspecieId());
+        entity.setEspecie(especie);
     }
 }

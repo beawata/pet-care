@@ -19,17 +19,19 @@ public class Pet {
     private String nome;
     private LocalDate dataNascimento;
     private String microchip;
-    private Tipo tipo;
 
     @OneToMany(mappedBy = "pet")
     private List<Rotina> rotinas = new ArrayList<>();
 
-    public Pet(Long id, String nome, LocalDate dataNascimento, String microchip, Tipo tipo) {
+    @ManyToOne
+    @JoinColumn(name = "especie_id")
+    private Especie especie;
+
+    public Pet(Long id, String nome, LocalDate dataNascimento, String microchip) {
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.microchip = microchip;
-        this.tipo = tipo;
     }
 
     public Pet() {
@@ -63,15 +65,16 @@ public class Pet {
         this.microchip = microchip;
     }
 
-    public Tipo getTipo() {
-        return tipo;
-    }
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
 
     public List<Rotina> getRotinas() {
         return rotinas;
+    }
+
+    public Especie getEspecie() {
+        return especie;
+    }
+    public void setEspecie(Especie especie) {
+        this.especie = especie;
     }
 
     @Override
@@ -85,4 +88,5 @@ public class Pet {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
 }
