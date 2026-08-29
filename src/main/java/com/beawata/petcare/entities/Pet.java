@@ -3,6 +3,8 @@ package com.beawata.petcare.entities;
 
 import jakarta.persistence.*;
 
+
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,10 @@ public class Pet {
     @ManyToOne
     @JoinColumn(name = "especie_id")
     private Especie especie;
+
+    @ManyToOne
+    @JoinColumn(name = "tutor_id")
+    private User tutor;
 
     public Pet(Long id, String nome, LocalDate dataNascimento, String microchip) {
         this.id = id;
@@ -75,6 +81,13 @@ public class Pet {
     }
     public void setEspecie(Especie especie) {
         this.especie = especie;
+    }
+
+    public User getTutor() {
+        return tutor;
+    }
+    public void setTutor(User tutor) {
+        this.tutor = tutor;
     }
 
     @Override
