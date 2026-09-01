@@ -96,8 +96,12 @@ public class User implements UserDetails {
         return pets;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
     public void addRole(Role role) {
-        this.roles.add(role);
+        roles.add(role);
     }
 
     public boolean hasRole(String role) {
