@@ -1,4 +1,4 @@
-package com.beawata.petcare.config;
+package com.beawata.petcare.config.customgrant;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
